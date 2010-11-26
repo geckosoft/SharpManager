@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Database Name="SharpManager" Class="BackendDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=TI-MSI\SQLEXPRESS;Initial Catalog=SharpManager;Integrated Security=True;Pooling=False" SettingsObjectName="SharpManager.Properties.Settings" SettingsPropertyName="SharpManagerConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.gebruikers" Member="Gebruikers">
+    <Type Name="Gebruiker">
+      <Column Name="GebruikerId" Type="System.Byte" DbType="TinyInt NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="GebruikerNaam" Type="System.String" DbType="VarChar(64) NOT NULL" CanBeNull="false" />
+      <Column Name="Naam" Type="System.String" DbType="VarChar(64) NOT NULL" CanBeNull="false" />
+      <Column Name="Voornaam" Type="System.String" DbType="VarChar(64) NOT NULL" CanBeNull="false" />
+      <Column Name="GeboorteDatum" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="LaatsteLogin" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="AantalLogins" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+</Database>
