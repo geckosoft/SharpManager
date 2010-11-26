@@ -26,6 +26,9 @@ obj
 # osx crap
 .DS_Store
 
+# more crap
+_ReSharper.*
+
 
 *.config
 # *.resources
