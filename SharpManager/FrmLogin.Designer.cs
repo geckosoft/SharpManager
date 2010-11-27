@@ -28,12 +28,16 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			this.components = new System.ComponentModel.Container();
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmLogin));
 			this.btnInloggen = new System.Windows.Forms.Button();
 			this.pictureBox1 = new System.Windows.Forms.PictureBox();
 			this.btnSluiten = new System.Windows.Forms.Button();
 			this.lblGebruiker = new System.Windows.Forms.Label();
 			this.lstGebruiker = new System.Windows.Forms.ComboBox();
+			this.visualStyler1 = new SkinSoft.VisualStyler.VisualStyler(this.components);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.visualStyler1)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// btnInloggen
@@ -42,7 +46,7 @@
 			this.btnInloggen.Location = new System.Drawing.Point(162, 227);
 			this.btnInloggen.Name = "btnInloggen";
 			this.btnInloggen.Size = new System.Drawing.Size(100, 38);
-			this.btnInloggen.TabIndex = 0;
+			this.btnInloggen.TabIndex = 1;
 			this.btnInloggen.Text = "&Inloggen";
 			this.btnInloggen.UseVisualStyleBackColor = true;
 			this.btnInloggen.Click += new System.EventHandler(this.btnInloggen_Click);
@@ -87,7 +91,12 @@
 			this.lstGebruiker.Location = new System.Drawing.Point(102, 164);
 			this.lstGebruiker.Name = "lstGebruiker";
 			this.lstGebruiker.Size = new System.Drawing.Size(160, 28);
-			this.lstGebruiker.TabIndex = 4;
+			this.lstGebruiker.TabIndex = 0;
+			// 
+			// visualStyler1
+			// 
+			this.visualStyler1.License = ((SkinSoft.VisualStyler.Licensing.VisualStylerLicense)(resources.GetObject("visualStyler1.License")));
+			this.visualStyler1.LoadVisualStyle(null, "OSX (Tiger).vssf");
 			// 
 			// FrmLogin
 			// 
@@ -108,6 +117,7 @@
 			this.Text = "Welkom bij SharpManager";
 			this.Load += new System.EventHandler(this.FrmLogin_Load);
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.visualStyler1)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -120,6 +130,7 @@
 		private System.Windows.Forms.Button btnSluiten;
 		private System.Windows.Forms.Label lblGebruiker;
 		private System.Windows.Forms.ComboBox lstGebruiker;
+		private SkinSoft.VisualStyler.VisualStyler visualStyler1;
 
 	}
 }

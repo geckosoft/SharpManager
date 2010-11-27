@@ -39,6 +39,14 @@ namespace SharpManager
 		private void btnInloggen_Click(object sender, EventArgs e)
 		{
 			Global.Gebruiker = Gebruikers.Login(lstGebruiker.SelectedItem.ToString());
+
+			Hide();
+
+
+			if (Global.Gebruiker != null)
+				(new Manager()).ShowDialog();
+
+			Close();
 		}
 
 		private void btnSluiten_Click(object sender, EventArgs e)

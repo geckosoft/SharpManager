@@ -33,6 +33,12 @@ namespace SharpManager
     partial void InsertGebruiker(Gebruiker instance);
     partial void UpdateGebruiker(Gebruiker instance);
     partial void DeleteGebruiker(Gebruiker instance);
+    partial void InsertContact(Contact instance);
+    partial void UpdateContact(Contact instance);
+    partial void DeleteContact(Contact instance);
+    partial void InsertTelefoonnummer(Telefoonnummer instance);
+    partial void UpdateTelefoonnummer(Telefoonnummer instance);
+    partial void DeleteTelefoonnummer(Telefoonnummer instance);
     #endregion
 		
 		public BackendDataContext() : 
@@ -72,6 +78,22 @@ namespace SharpManager
 				return this.GetTable<Gebruiker>();
 			}
 		}
+		
+		public System.Data.Linq.Table<Contact> Contacts
+		{
+			get
+			{
+				return this.GetTable<Contact>();
+			}
+		}
+		
+		public System.Data.Linq.Table<Telefoonnummer> Telefoonnummers
+		{
+			get
+			{
+				return this.GetTable<Telefoonnummer>();
+			}
+		}
 	}
 	
 	[Table(Name="dbo.gebruikers")]
@@ -93,6 +115,8 @@ namespace SharpManager
 		private System.Nullable<System.DateTime> _LaatsteLogin;
 		
 		private int _AantalLogins;
+		
+		private EntitySet<Telefoonnummer> _Telefoonnummers;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -116,6 +140,7 @@ namespace SharpManager
 		
 		public Gebruiker()
 		{
+			this._Telefoonnummers = new EntitySet<Telefoonnummer>(new Action<Telefoonnummer>(this.attach_Telefoonnummers), new Action<Telefoonnummer>(this.detach_Telefoonnummers));
 			OnCreated();
 		}
 		
@@ -255,6 +280,529 @@ namespace SharpManager
 					this._AantalLogins = value;
 					this.SendPropertyChanged("AantalLogins");
 					this.OnAantalLoginsChanged();
+				}
+			}
+		}
+		
+		[Association(Name="Gebruiker_Telefoonnummer", Storage="_Telefoonnummers", ThisKey="GebruikerId", OtherKey="ToegevoegdDoor")]
+		public EntitySet<Telefoonnummer> Telefoonnummers
+		{
+			get
+			{
+				return this._Telefoonnummers;
+			}
+			set
+			{
+				this._Telefoonnummers.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Telefoonnummers(Telefoonnummer entity)
+		{
+			this.SendPropertyChanging();
+			entity.Gebruiker = this;
+		}
+		
+		private void detach_Telefoonnummers(Telefoonnummer entity)
+		{
+			this.SendPropertyChanging();
+			entity.Gebruiker = null;
+		}
+	}
+	
+	[Table(Name="dbo.Contacten")]
+	public partial class Contact : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ContactId;
+		
+		private string _Naam;
+		
+		private string _Voornaam;
+		
+		private string _Bedrijf;
+		
+		private string _Adres;
+		
+		private string _Postcode;
+		
+		private string _Gemeente;
+		
+		private EntitySet<Telefoonnummer> _Telefoonnummers;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnContactIdChanging(int value);
+    partial void OnContactIdChanged();
+    partial void OnNaamChanging(string value);
+    partial void OnNaamChanged();
+    partial void OnVoornaamChanging(string value);
+    partial void OnVoornaamChanged();
+    partial void OnBedrijfChanging(string value);
+    partial void OnBedrijfChanged();
+    partial void OnAdresChanging(string value);
+    partial void OnAdresChanged();
+    partial void OnPostcodeChanging(string value);
+    partial void OnPostcodeChanged();
+    partial void OnGemeenteChanging(string value);
+    partial void OnGemeenteChanged();
+    #endregion
+		
+		public Contact()
+		{
+			this._Telefoonnummers = new EntitySet<Telefoonnummer>(new Action<Telefoonnummer>(this.attach_Telefoonnummers), new Action<Telefoonnummer>(this.detach_Telefoonnummers));
+			OnCreated();
+		}
+		
+		[Column(Storage="_ContactId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ContactId
+		{
+			get
+			{
+				return this._ContactId;
+			}
+			set
+			{
+				if ((this._ContactId != value))
+				{
+					this.OnContactIdChanging(value);
+					this.SendPropertyChanging();
+					this._ContactId = value;
+					this.SendPropertyChanged("ContactId");
+					this.OnContactIdChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_Naam", DbType="VarChar(128)")]
+		public string Naam
+		{
+			get
+			{
+				return this._Naam;
+			}
+			set
+			{
+				if ((this._Naam != value))
+				{
+					this.OnNaamChanging(value);
+					this.SendPropertyChanging();
+					this._Naam = value;
+					this.SendPropertyChanged("Naam");
+					this.OnNaamChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_Voornaam", DbType="VarChar(128)")]
+		public string Voornaam
+		{
+			get
+			{
+				return this._Voornaam;
+			}
+			set
+			{
+				if ((this._Voornaam != value))
+				{
+					this.OnVoornaamChanging(value);
+					this.SendPropertyChanging();
+					this._Voornaam = value;
+					this.SendPropertyChanged("Voornaam");
+					this.OnVoornaamChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_Bedrijf", DbType="VarChar(128) NOT NULL", CanBeNull=false)]
+		public string Bedrijf
+		{
+			get
+			{
+				return this._Bedrijf;
+			}
+			set
+			{
+				if ((this._Bedrijf != value))
+				{
+					this.OnBedrijfChanging(value);
+					this.SendPropertyChanging();
+					this._Bedrijf = value;
+					this.SendPropertyChanged("Bedrijf");
+					this.OnBedrijfChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_Adres", DbType="VarChar(255) NOT NULL", CanBeNull=false)]
+		public string Adres
+		{
+			get
+			{
+				return this._Adres;
+			}
+			set
+			{
+				if ((this._Adres != value))
+				{
+					this.OnAdresChanging(value);
+					this.SendPropertyChanging();
+					this._Adres = value;
+					this.SendPropertyChanged("Adres");
+					this.OnAdresChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_Postcode", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
+		public string Postcode
+		{
+			get
+			{
+				return this._Postcode;
+			}
+			set
+			{
+				if ((this._Postcode != value))
+				{
+					this.OnPostcodeChanging(value);
+					this.SendPropertyChanging();
+					this._Postcode = value;
+					this.SendPropertyChanged("Postcode");
+					this.OnPostcodeChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_Gemeente", DbType="VarChar(255) NOT NULL", CanBeNull=false)]
+		public string Gemeente
+		{
+			get
+			{
+				return this._Gemeente;
+			}
+			set
+			{
+				if ((this._Gemeente != value))
+				{
+					this.OnGemeenteChanging(value);
+					this.SendPropertyChanging();
+					this._Gemeente = value;
+					this.SendPropertyChanged("Gemeente");
+					this.OnGemeenteChanged();
+				}
+			}
+		}
+		
+		[Association(Name="Contact_Telefoonnummer", Storage="_Telefoonnummers", ThisKey="ContactId", OtherKey="ContactId")]
+		public EntitySet<Telefoonnummer> Telefoonnummers
+		{
+			get
+			{
+				return this._Telefoonnummers;
+			}
+			set
+			{
+				this._Telefoonnummers.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_Telefoonnummers(Telefoonnummer entity)
+		{
+			this.SendPropertyChanging();
+			entity.Contact = this;
+		}
+		
+		private void detach_Telefoonnummers(Telefoonnummer entity)
+		{
+			this.SendPropertyChanging();
+			entity.Contact = null;
+		}
+	}
+	
+	[Table(Name="dbo.Telefoonnummer")]
+	public partial class Telefoonnummer : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _NummerId;
+		
+		private int _ContactId;
+		
+		private string _NummerType;
+		
+		private string _Nummer;
+		
+		private byte _ToegevoegdDoor;
+		
+		private System.DateTime _ToegevoegdOp;
+		
+		private EntityRef<Gebruiker> _Gebruiker;
+		
+		private EntityRef<Contact> _Contact;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnNummerIdChanging(int value);
+    partial void OnNummerIdChanged();
+    partial void OnContactIdChanging(int value);
+    partial void OnContactIdChanged();
+    partial void OnNummerTypeChanging(string value);
+    partial void OnNummerTypeChanged();
+    partial void OnNummerChanging(string value);
+    partial void OnNummerChanged();
+    partial void OnToegevoegdDoorChanging(byte value);
+    partial void OnToegevoegdDoorChanged();
+    partial void OnToegevoegdOpChanging(System.DateTime value);
+    partial void OnToegevoegdOpChanged();
+    #endregion
+		
+		public Telefoonnummer()
+		{
+			this._Gebruiker = default(EntityRef<Gebruiker>);
+			this._Contact = default(EntityRef<Contact>);
+			OnCreated();
+		}
+		
+		[Column(Storage="_NummerId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int NummerId
+		{
+			get
+			{
+				return this._NummerId;
+			}
+			set
+			{
+				if ((this._NummerId != value))
+				{
+					this.OnNummerIdChanging(value);
+					this.SendPropertyChanging();
+					this._NummerId = value;
+					this.SendPropertyChanged("NummerId");
+					this.OnNummerIdChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_ContactId", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		public int ContactId
+		{
+			get
+			{
+				return this._ContactId;
+			}
+			set
+			{
+				if ((this._ContactId != value))
+				{
+					if (this._Contact.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnContactIdChanging(value);
+					this.SendPropertyChanging();
+					this._ContactId = value;
+					this.SendPropertyChanged("ContactId");
+					this.OnContactIdChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_NummerType", DbType="VarChar(32) NOT NULL", CanBeNull=false)]
+		public string NummerType
+		{
+			get
+			{
+				return this._NummerType;
+			}
+			set
+			{
+				if ((this._NummerType != value))
+				{
+					this.OnNummerTypeChanging(value);
+					this.SendPropertyChanging();
+					this._NummerType = value;
+					this.SendPropertyChanged("NummerType");
+					this.OnNummerTypeChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_Nummer", DbType="VarChar(255) NOT NULL", CanBeNull=false)]
+		public string Nummer
+		{
+			get
+			{
+				return this._Nummer;
+			}
+			set
+			{
+				if ((this._Nummer != value))
+				{
+					this.OnNummerChanging(value);
+					this.SendPropertyChanging();
+					this._Nummer = value;
+					this.SendPropertyChanged("Nummer");
+					this.OnNummerChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_ToegevoegdDoor", DbType="TinyInt NOT NULL")]
+		public byte ToegevoegdDoor
+		{
+			get
+			{
+				return this._ToegevoegdDoor;
+			}
+			set
+			{
+				if ((this._ToegevoegdDoor != value))
+				{
+					if (this._Gebruiker.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.OnToegevoegdDoorChanging(value);
+					this.SendPropertyChanging();
+					this._ToegevoegdDoor = value;
+					this.SendPropertyChanged("ToegevoegdDoor");
+					this.OnToegevoegdDoorChanged();
+				}
+			}
+		}
+		
+		[Column(Storage="_ToegevoegdOp", DbType="DateTime NOT NULL")]
+		public System.DateTime ToegevoegdOp
+		{
+			get
+			{
+				return this._ToegevoegdOp;
+			}
+			set
+			{
+				if ((this._ToegevoegdOp != value))
+				{
+					this.OnToegevoegdOpChanging(value);
+					this.SendPropertyChanging();
+					this._ToegevoegdOp = value;
+					this.SendPropertyChanged("ToegevoegdOp");
+					this.OnToegevoegdOpChanged();
+				}
+			}
+		}
+		
+		[Association(Name="Gebruiker_Telefoonnummer", Storage="_Gebruiker", ThisKey="ToegevoegdDoor", OtherKey="GebruikerId", IsForeignKey=true)]
+		public Gebruiker Gebruiker
+		{
+			get
+			{
+				return this._Gebruiker.Entity;
+			}
+			set
+			{
+				Gebruiker previousValue = this._Gebruiker.Entity;
+				if (((previousValue != value) 
+							|| (this._Gebruiker.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Gebruiker.Entity = null;
+						previousValue.Telefoonnummers.Remove(this);
+					}
+					this._Gebruiker.Entity = value;
+					if ((value != null))
+					{
+						value.Telefoonnummers.Add(this);
+						this._ToegevoegdDoor = value.GebruikerId;
+					}
+					else
+					{
+						this._ToegevoegdDoor = default(byte);
+					}
+					this.SendPropertyChanged("Gebruiker");
+				}
+			}
+		}
+		
+		[Association(Name="Contact_Telefoonnummer", Storage="_Contact", ThisKey="ContactId", OtherKey="ContactId", IsForeignKey=true)]
+		public Contact Contact
+		{
+			get
+			{
+				return this._Contact.Entity;
+			}
+			set
+			{
+				Contact previousValue = this._Contact.Entity;
+				if (((previousValue != value) 
+							|| (this._Contact.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._Contact.Entity = null;
+						previousValue.Telefoonnummers.Remove(this);
+					}
+					this._Contact.Entity = value;
+					if ((value != null))
+					{
+						value.Telefoonnummers.Add(this);
+						this._ContactId = value.ContactId;
+					}
+					else
+					{
+						this._ContactId = default(int);
+					}
+					this.SendPropertyChanged("Contact");
 				}
 			}
 		}

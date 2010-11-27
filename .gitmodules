@@ -1,0 +1,3 @@
+[submodule "vendor/RibbonControl"]
+	path = vendor/RibbonControl
+	url = git@github.com:geckosoft/RibbonControl.git

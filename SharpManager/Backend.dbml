@@ -10,6 +10,31 @@
       <Column Name="GeboorteDatum" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
       <Column Name="LaatsteLogin" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
       <Column Name="AantalLogins" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="Gebruiker_Telefoonnummer" Member="Telefoonnummers" ThisKey="GebruikerId" OtherKey="ToegevoegdDoor" Type="Telefoonnummer" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Contacten" Member="Contacts">
+    <Type Name="Contact">
+      <Column Name="ContactId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Naam" Type="System.String" DbType="VarChar(128)" CanBeNull="true" />
+      <Column Name="Voornaam" Type="System.String" DbType="VarChar(128)" CanBeNull="true" />
+      <Column Name="Bedrijf" Type="System.String" DbType="VarChar(128) NOT NULL" CanBeNull="false" />
+      <Column Name="Adres" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="Postcode" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="Gemeente" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Association Name="Contact_Telefoonnummer" Member="Telefoonnummers" ThisKey="ContactId" OtherKey="ContactId" Type="Telefoonnummer" />
+    </Type>
+  </Table>
+  <Table Name="dbo.Telefoonnummer" Member="Telefoonnummers">
+    <Type Name="Telefoonnummer">
+      <Column Name="NummerId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="ContactId" Type="System.Int32" DbType="Int NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="NummerType" Type="System.String" DbType="VarChar(32) NOT NULL" CanBeNull="false" />
+      <Column Name="Nummer" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+      <Column Name="ToegevoegdDoor" Type="System.Byte" DbType="TinyInt NOT NULL" CanBeNull="false" />
+      <Column Name="ToegevoegdOp" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Association Name="Gebruiker_Telefoonnummer" Member="Gebruiker" ThisKey="ToegevoegdDoor" OtherKey="GebruikerId" Type="Gebruiker" IsForeignKey="true" />
+      <Association Name="Contact_Telefoonnummer" Member="Contact" ThisKey="ContactId" OtherKey="ContactId" Type="Contact" IsForeignKey="true" />
     </Type>
   </Table>
 </Database>
